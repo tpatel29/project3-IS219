@@ -20,7 +20,7 @@ from app.simple_pages import simple_pages
 from app.songs import songs
 from app.map import map
 from app.db import database
-from flask_cors import CORS
+# from flask_cors import CORS
 
 login_manager = flask_login.LoginManager()
 
@@ -34,6 +34,7 @@ def create_app():
         app.config.from_object("app.config.DevelopmentConfig")
     elif os.environ.get("FLASK_ENV") == "testing":
         app.config.from_object("app.config.TestingConfig")
+        app.config['WTF_CSRF_ENABLED'] = False
 
     # https://flask-login.readthedocs.io/en/latest/  <-login manager
     login_manager.init_app(app)
@@ -56,10 +57,10 @@ def create_app():
     # add command function to cli commands
     app.cli.add_command(create_database)
     db.init_app(app)
-    api_v1_cors_config = {
-        "methods": ["OPTIONS", "GET", "POST"],
-    }
-    CORS(app, resources={"/api/*": api_v1_cors_config})
+    # api_v1_cors_config = {
+    #     "methods": ["OPTIONS", "GET", "POST"],
+    # }
+    # CORS(app, resources={"/api/*": api_v1_cors_config})
     return app
 
 
